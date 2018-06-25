@@ -1,6 +1,7 @@
 package grafo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Grafo {
     
@@ -73,7 +74,7 @@ public class Grafo {
      * Depth-First Search
      * Búsqueda en profundidad
      * O(|V|^2)     con matriz de adyacencia
-     * O(|V|+|E|)   con lista de adyacencia
+     * O(|V|+|A|)   con lista de adyacencia
      * @param ini - Vértice inicial
      * @return Recorrido de vértices visitados
      */
@@ -94,4 +95,33 @@ public class Grafo {
         return recorrido;
     }
     
+    /**
+     * Breadth-First Search
+     * Búsqueda en anchura
+     * O(|V|^2)     con matriz de adyacencia
+     * O(|V|+|A|)   con lista de adyacencia
+     * @param ini - Vértice inicial
+     * @return Recorrido de vértices visitados
+     */
+    public ArrayList<Integer> bfs(int ini) {
+        ArrayList<Integer> recorrido = new ArrayList<Integer>();
+        boolean[] visitado = new boolean[cardinalidad];
+        LinkedList<Integer> cola = new LinkedList<Integer>();
+        
+        cola.offer(ini);
+        visitado[ini] = true;
+        
+        while (!cola.isEmpty()) {
+            Integer vActual = cola.poll();
+            recorrido.add(vActual);
+            for (Integer i : obtenerVecinos(vActual)) {
+                if (!visitado[i]) {
+                    cola.offer(i);
+                    visitado[i] = true;
+                }
+            }
+        }
+        
+        return recorrido;
+    }
 }
