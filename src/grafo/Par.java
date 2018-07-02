@@ -1,15 +1,15 @@
 package grafo;
 
 public class Par implements Comparable<Par> {
-    
+
     private Integer vertice;
     private Integer longitudCamino;
-    
+
     public Par(int vertice, int longitudCamino) {
         this.vertice = vertice;
         this.longitudCamino = longitudCamino;
     }
-    
+
     @Override
     public int compareTo(Par otro) {
         return this.longitudCamino.compareTo(otro.longitudCamino);
@@ -22,7 +22,7 @@ public class Par implements Comparable<Par> {
     public void setVertice(Integer vertice) {
         this.vertice = vertice;
     }
-    
+
     public Integer getLongitudCamino() {
         return longitudCamino;
     }

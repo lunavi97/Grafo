@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class CaminoMasCorto {
-    
+
     private Integer[] distancia;
     private Integer[] predecesor;
-    
+
     public CaminoMasCorto(Integer[] distancia, Integer[] predecesor) {
         this.distancia = distancia;
         this.predecesor = predecesor;
@@ -21,7 +21,7 @@ public class CaminoMasCorto {
     public void setDistancia(Integer[] distancia) {
         this.distancia = distancia;
     }
-    
+
     public Integer getDistancia(int pos) {
         return distancia[pos];
     }
@@ -29,7 +29,7 @@ public class CaminoMasCorto {
     public Integer[] getPredecesor() {
         return predecesor;
     }
-    
+
     public Integer getPredecesor(int pos) {
         return predecesor[pos];
     }
@@ -37,7 +37,7 @@ public class CaminoMasCorto {
     public void setPredecesor(Integer[] predecesor) {
         this.predecesor = predecesor;
     }
-    
+
     /**
      * Recorrido hasta destino
      * O(|V|)
@@ -46,16 +46,16 @@ public class CaminoMasCorto {
      */
     public ArrayList<Integer> obtenerRecorrido(int destino) {
         ArrayList<Integer> camino = new ArrayList<Integer>();
-        
+
         camino.add(destino);
         Integer predecesor = getPredecesor(destino);
         while(predecesor != null) {
             camino.add(predecesor);
             predecesor = getPredecesor(predecesor);
         }
-        
+
         Collections.reverse(camino);
-        
+
         return camino;
     }
 
@@ -89,5 +89,5 @@ public class CaminoMasCorto {
         return "[distancia=" + Arrays.toString(distancia) + ","
                 + "predecesor=" + Arrays.toString(predecesor) + "]";
     }
-    
+
 }
