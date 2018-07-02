@@ -51,5 +51,26 @@ public class GrafoTests {
         
         Assert.assertEquals(recorridoRes, g.bfs(2));
     }
+    
+    @Test
+    public void dijkstra() {
+        Integer[][] matrizAdy = {{null,   5,     2,      3   },
+                                {null,   null,   4,      null},
+                                {null,   null,   null,   1   },
+                                {null,   null,   null,   null}};
+        
+         g = new Grafo(matrizAdy);
+         
+         Integer[] distancia = {0, 5, 2, 3};
+         Integer[] predecesor = {null, 0, 0, 0};
+         CaminoMasCorto cmc = new CaminoMasCorto(distancia, predecesor);
+         Assert.assertEquals(cmc, g.dijkstra(0));
+         
+         ArrayList<Integer> al = new ArrayList<Integer>();
+         al.add(0);
+         al.add(3);
+         
+         Assert.assertEquals(al, cmc.obtenerRecorrido(3));
+    }
 
 }
