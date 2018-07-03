@@ -547,4 +547,13 @@ public class Grafo {
         return coloreo;
     }
 
+    /**
+     * Busca si existe al menos una trayectoria entre todos los vértices
+     * @return Si es conexo
+     */
+    public boolean esConexo() {
+        return bfs(ThreadLocalRandom.current().nextInt(0, cardinalidad)).size()
+                == cardinalidad;
+    }
+
 }

@@ -295,5 +295,26 @@ public class GrafoTests {
         Color[] colores = {new Color(0), new Color(1), new Color(0), new Color(1), new Color(1)};
         Assert.assertEquals(new Coloreo(colores).numeroCromatico(), g.welshPowell().numeroCromatico());
     }
+    
+    @Test
+    public void esConexo() {
+        g = new Grafo(5);
+
+        g.agregarAristaNoDirigida(0, 1);
+        g.agregarAristaNoDirigida(1, 2);
+        g.agregarAristaNoDirigida(2, 3);
+        g.agregarAristaNoDirigida(2, 4);
+        g.agregarAristaNoDirigida(4, 0);
+        
+        Assert.assertTrue(g.esConexo());
+        
+        g = new Grafo(5);
+        
+        g.agregarAristaNoDirigida(0, 1);
+        g.agregarAristaNoDirigida(1, 2);
+        g.agregarAristaNoDirigida(3, 4);
+        
+        Assert.assertFalse(g.esConexo());
+    }
 
 }
