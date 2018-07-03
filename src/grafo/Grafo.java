@@ -323,4 +323,57 @@ public class Grafo {
         return prim(ThreadLocalRandom.current().nextInt(0, cardinalidad));
     }
 
+    public Integer[][] floyd() {
+        Integer[][] cmetpv = new Integer[cardinalidad][cardinalidad];
+        ArrayList<Arista> aristas = obtenerAristas(true);
+
+        for (int i = 0; i < cardinalidad; i++) {
+            cmetpv[i][i] = 0;
+        }
+
+        for (Arista arista : aristas) {
+            Integer ver1 = arista.getVer1();
+            Integer ver2 = arista.getVer2();
+            Integer pond = arista.getPonderancia();
+
+            cmetpv[ver1][ver2] = pond;
+        }
+
+        for (int k = 0; k < cardinalidad; k++) {
+            for (int i = 0; i < cardinalidad; i++) {
+                for (int j = 0; j < cardinalidad; j++) {
+                    if (cmetpv[i][k] == null || cmetpv[k][j] == null) continue;
+
+                    Integer fIJ = cmetpv[i][j];
+                    Integer fIKKJ = cmetpv[i][k] + cmetpv[k][j];
+                    cmetpv[i][j] = fIJ == null ? fIKKJ : Math.min(fIJ, fIKKJ);
+                }
+            }
+        }
+
+        return cmetpv;
+    }
+
+    public boolean[][] warshall() {
+        boolean[][] ct = new boolean[cardinalidad][cardinalidad];
+        ArrayList<Arista> aristas = obtenerAristas(true);
+
+        for (Arista arista : aristas) {
+            Integer ver1 = arista.getVer1();
+            Integer ver2 = arista.getVer2();
+
+            ct[ver1][ver2] = true;
+        }
+
+        for (int k = 0; k < cardinalidad; k++) {
+            for (int i = 0; i < cardinalidad; i++) {
+                for (int j = 0; j < cardinalidad; j++) {
+                    ct[i][j] = ct[i][j] || (ct[i][k] && ct[k][j]);
+                }
+            }
+        }
+
+        return ct;
+    }
+
 }

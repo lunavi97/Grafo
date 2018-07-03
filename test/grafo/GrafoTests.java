@@ -167,4 +167,68 @@ public class GrafoTests {
         Assert.assertEquals(new ArbolRecubridorMinimo(aristas, 37), g.prim(6));
     }
 
+    @Test
+    public void floyd() {
+        g = new Grafo(6);
+
+        g.agregarAristaNoDirigida(0, 1, 3);
+        g.agregarAristaNoDirigida(0, 2, 5);
+        g.agregarAristaNoDirigida(0, 3, 1);
+        g.agregarAristaNoDirigida(1, 4, 9);
+        g.agregarAristaNoDirigida(2, 3, 7);
+        g.agregarAristaNoDirigida(2, 4, 7);
+        g.agregarAristaNoDirigida(2, 5, 1);
+        g.agregarAristaNoDirigida(3, 5, 4);
+
+        Integer[][] matrizRes = {
+                {0,     3,      5,      1,      12,     5},
+                {3,     0,      8,      4,      9,      8},
+                {5,     8,      0,      5,      7,      1},
+                {1,     4,      5,      0,      12,     4},
+                {12,    9,      7,      12,     0,      8},
+                {5,     8,      1,      4,      8,      0}
+        };
+
+        Assert.assertArrayEquals(matrizRes, g.floyd());
+    }
+
+    @Test
+    public void warshall() {
+        g = new Grafo(3);
+
+        g.agregarArista(0, 1);
+        g.agregarArista(2, 1);
+        g.agregarArista(0, 2);
+
+        boolean[][] mRes = {
+                {false, true, true},
+                {false, false, false},
+                {false, true, false}
+        };
+
+        Assert.assertArrayEquals(mRes, g.warshall());
+
+        g = new Grafo(6);
+
+        g.agregarAristaNoDirigida(0, 1, 3);
+        g.agregarAristaNoDirigida(0, 2, 5);
+        g.agregarAristaNoDirigida(0, 3, 1);
+        g.agregarAristaNoDirigida(1, 4, 9);
+        g.agregarAristaNoDirigida(2, 3, 7);
+        g.agregarAristaNoDirigida(2, 4, 7);
+        g.agregarAristaNoDirigida(2, 5, 1);
+        g.agregarAristaNoDirigida(3, 5, 4);
+
+        boolean[][] matrizRes = {
+                {true,  true,   true,   true,   true,   true},
+                {true,  true,   true,   true,   true,   true},
+                {true,  true,   true,   true,   true,   true},
+                {true,  true,   true,   true,   true,   true},
+                {true,  true,   true,   true,   true,   true},
+                {true,  true,   true,   true,   true,   true}
+        };
+
+        Assert.assertArrayEquals(matrizRes, g.warshall());
+    }
+
 }
