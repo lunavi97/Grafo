@@ -388,4 +388,39 @@ public class Grafo {
         return ct;
     }
 
+    /**
+     * Bellman Ford
+     * Para encontrar el camino más corto
+     * O(|V||A|)
+     * @param origen - Vértice origen
+     * @return Camino más corto desde el origen
+     */
+    public CaminoMasCorto bellmanFord(int origen) {
+        Integer[] distancia = new Integer[cardinalidad];
+        Integer[] predecesor = new Integer[cardinalidad];
+        ArrayList<Arista> aristas = obtenerAristas(true);
+
+        distancia[origen] = 0;
+        for (int i = 0; i < cardinalidad; i++) {
+            for (Arista arista : aristas) {
+                Integer ver1 = arista.getVer1();
+                Integer ver2 = arista.getVer2();
+                relajarArista(distancia, predecesor, ver1, ver2);
+            }
+        }
+
+        return new CaminoMasCorto(distancia, predecesor);
+    }
+
+    /**
+     * Recorrido del camino más corto del origen al destino, obtenido a través de Bellman FOrd
+     * O(|V||A|)
+     * @param origen - Vértice origen
+     * @param destino - Vértice destino
+     * @return Recorrido del camino más corto
+     */
+    public ArrayList<Integer> recorridoBellmanFord(int origen, int destino) {
+        return bellmanFord(origen).obtenerRecorrido(destino);
+    }
+
 }

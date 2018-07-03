@@ -82,7 +82,7 @@ public class GrafoTests {
         al.add(0);
         al.add(3);
 
-        Assert.assertEquals(al, cmc.obtenerRecorrido(3));
+        Assert.assertEquals(al, g.recorridoDijkstra(0, 3));
     }
 
     @Test
@@ -229,6 +229,29 @@ public class GrafoTests {
         };
 
         Assert.assertArrayEquals(matrizRes, g.warshall());
+    }
+
+    @Test
+    public void bellmanFord() {
+        Integer[][] matrizAdy = {
+                {null,   5,     2,      3   },
+                {null,   null,   4,      null},
+                {null,   null,   null,   1   },
+                {null,   null,   null,   null}
+        };
+
+        g = new Grafo(matrizAdy);
+
+        Integer[] distancia = {0, 5, 2, 3};
+        Integer[] predecesor = {null, 0, 0, 0};
+        CaminoMasCorto cmc = new CaminoMasCorto(distancia, predecesor);
+        Assert.assertEquals(cmc, g.bellmanFord(0));
+
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        al.add(0);
+        al.add(3);
+
+        Assert.assertEquals(al, g.recorridoBellmanFord(0, 3));
     }
 
 }
