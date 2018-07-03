@@ -323,6 +323,12 @@ public class Grafo {
         return prim(ThreadLocalRandom.current().nextInt(0, cardinalidad));
     }
 
+    /**
+     * Floyd
+     * Para encontrar los caminos más cortos entre todos los pares de vértices
+     * O(|V|^3)
+     * @return Matriz con el costo para llegar de un vértice a otro
+     */
     public Integer[][] floyd() {
         Integer[][] cmetpv = new Integer[cardinalidad][cardinalidad];
         ArrayList<Arista> aristas = obtenerAristas(true);
@@ -354,6 +360,12 @@ public class Grafo {
         return cmetpv;
     }
 
+    /**
+     * Warshall
+     * Para encontrar si hay caminos para llegar de un vértice a otro
+     * O(|V|^3)
+     * @return Matriz de clausura transitiva
+     */
     public boolean[][] warshall() {
         boolean[][] ct = new boolean[cardinalidad][cardinalidad];
         ArrayList<Arista> aristas = obtenerAristas(true);
