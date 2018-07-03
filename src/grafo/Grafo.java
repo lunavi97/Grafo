@@ -31,6 +31,15 @@ public class Grafo {
     }
 
     /**
+     * Cantidad de vértices adyacentes
+     * @param vertice - Vértice seleccionado
+     * @return Grado
+     */
+    public Integer grado(int vertice) {
+        return obtenerAdyacentes(vertice).size();
+    }
+
+    /**
      * Crear una arista con ponderancia 1
      * @param v - Primer vértice
      * @param w - Segundo vértice
@@ -421,6 +430,121 @@ public class Grafo {
      */
     public ArrayList<Integer> recorridoBellmanFord(int origen, int destino) {
         return bellmanFord(origen).obtenerRecorrido(destino);
+    }
+
+    /**
+     * Colorear vértices del grafo
+     * @param vertices - Vértices en orden
+     * @return Coloreo
+     */
+    public Coloreo colorear(ArrayList<Integer> vertices) {
+        Color[] colorV = new Color[cardinalidad];
+        boolean adyacenteIgualColor, huboCambioDeColor;
+
+        for (int i = 0; i < cardinalidad; i++) {
+            colorV[vertices.get(i)] = new Color(0);
+            adyacenteIgualColor = false;
+            huboCambioDeColor = true;
+
+            while (huboCambioDeColor) {
+                for (Integer j : obtenerAdyacentes(vertices.get(i))) {
+                    if (colorV[vertices.get(i)].equals(colorV[j])) {
+                        adyacenteIgualColor = true;
+                        break;
+                    }
+                }
+
+                if (adyacenteIgualColor) {
+                    huboCambioDeColor = true;
+                    adyacenteIgualColor = false;
+                    colorV[vertices.get(i)].setId(colorV[vertices.get(i)].getId() + 1);
+                }
+                else huboCambioDeColor = false;                
+            }
+        }
+
+        return new Coloreo(colorV);
+    }
+
+    /**
+     * Colorear vértices del grafo en orden inicial
+     * @return Coloreo
+     */
+    public Coloreo colorear() {
+        ArrayList<Integer> vertices = new ArrayList<Integer>();
+        for (int i = 0; i < cardinalidad; i++) {
+            vertices.add(i);
+        }
+        return colorear(vertices);
+    }
+
+    /**
+     * Coloreo secuencial
+     * Realizar coloreo con vértices en orden aleatorio
+     * @return Coloreo
+     */
+    public Coloreo coloreoSecuencial() {
+        ArrayList<Integer> vertices = new ArrayList<Integer>();
+        for (int i = 0; i < cardinalidad; i++) {
+            vertices.add(i);
+        }
+        Collections.shuffle(vertices); // Ordenamiento aleatorio
+        Coloreo coloreo = colorear(vertices);
+        return coloreo;
+    }
+
+    /**
+     * Hacer coloreo secuencial
+     * @param corridas - Cantidad de ejecuciones solicitadas
+     * @return Coloreo
+     */
+    public Coloreo coloreoSecuencial(int corridas) {
+        Coloreo mejorColoreo = coloreoSecuencial();
+        Integer minNumeroCromatico = mejorColoreo.numeroCromatico();
+        for (int i = 1; i < corridas; i++) {
+            Coloreo coloreo = coloreoSecuencial();
+
+            if (coloreo.numeroCromatico() < minNumeroCromatico) {
+                mejorColoreo = new Coloreo(coloreo);
+                minNumeroCromatico = mejorColoreo.numeroCromatico();
+            }
+        }
+
+        return mejorColoreo;
+    }
+
+    /**
+     * Coloreo Matula
+     * Realizar coloreo con vértices en orden creciente de grados
+     * @return Coloreo
+     */
+    public Coloreo matula() {
+        ArrayList<Integer> vertices = new ArrayList<Integer>();
+        for (int i = 0; i < cardinalidad; i++) {
+            vertices.add(i);
+        }
+
+        vertices.sort((x, y) -> grado(x).compareTo(grado(y))); // De menor a mayor grado
+
+        Coloreo coloreo = colorear(vertices);
+        return coloreo;
+    }
+
+    /**
+     * Coloreo Welsh Powell
+     * Realizar coloreo con vértices en orden decreciente de grados
+     * @return Coloreo
+     */
+    public Coloreo welshPowell() {
+        ArrayList<Integer> vertices = new ArrayList<Integer>();
+        for (int i = 0; i < cardinalidad; i++) {
+            vertices.add(i);
+        }
+
+        vertices.sort((x, y) -> grado(y).compareTo(grado(x))); // De mayor a menor grado
+
+        Coloreo coloreo = colorear(vertices);
+        return coloreo;
     }
 
 }

@@ -254,4 +254,46 @@ public class GrafoTests {
         Assert.assertEquals(al, g.recorridoBellmanFord(0, 3));
     }
 
+    @Test
+    public void coloreoSecuencial() {
+        g = new Grafo(5);
+
+        g.agregarAristaNoDirigida(0, 1);
+        g.agregarAristaNoDirigida(1, 2);
+        g.agregarAristaNoDirigida(2, 3);
+        g.agregarAristaNoDirigida(2, 4);
+        g.agregarAristaNoDirigida(4, 0);
+
+        Color[] colores = {new Color(0), new Color(1), new Color(0), new Color(1), new Color(1)};
+        Assert.assertEquals(new Coloreo(colores).numeroCromatico(), g.coloreoSecuencial(2).numeroCromatico());
+    }
+
+    @Test
+    public void coloreoMatula() {
+        g = new Grafo(5);
+
+        g.agregarAristaNoDirigida(0, 1);
+        g.agregarAristaNoDirigida(1, 2);
+        g.agregarAristaNoDirigida(2, 3);
+        g.agregarAristaNoDirigida(2, 4);
+        g.agregarAristaNoDirigida(4, 0);
+
+        Color[] colores = {new Color(0), new Color(1), new Color(2), new Color(1), new Color(1)};
+        Assert.assertEquals(new Coloreo(colores).numeroCromatico(), g.matula().numeroCromatico());
+    }
+
+    @Test
+    public void coloreoWelshPowell() {
+        g = new Grafo(5);
+
+        g.agregarAristaNoDirigida(0, 1);
+        g.agregarAristaNoDirigida(1, 2);
+        g.agregarAristaNoDirigida(2, 3);
+        g.agregarAristaNoDirigida(2, 4);
+        g.agregarAristaNoDirigida(4, 0);
+
+        Color[] colores = {new Color(0), new Color(1), new Color(0), new Color(1), new Color(1)};
+        Assert.assertEquals(new Coloreo(colores).numeroCromatico(), g.welshPowell().numeroCromatico());
+    }
+
 }
