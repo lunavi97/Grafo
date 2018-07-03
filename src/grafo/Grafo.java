@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Grafo {
 
@@ -271,6 +272,55 @@ public class Grafo {
         }
 
         return arm;
+    }
+
+    /**
+     * Prim
+     * Para encontrar el árbol recubridor mínimo
+     * O(|A|log|V|)
+     * @param origen - Vértice origen
+     * @return Árbol recubridor mínimo desde vértice origen
+     */
+    public ArbolRecubridorMinimo prim(int origen) {
+        ArbolRecubridorMinimo arm = new ArbolRecubridorMinimo();
+        boolean[] visitado = new boolean[cardinalidad];
+        PriorityQueue<Arista> pq = new PriorityQueue<Arista>();
+        visitado[origen] = true;
+
+        for (Integer i : obtenerAdyacentes(origen)) {
+            pq.offer(new Arista(origen, i, obtenerPonderanciaArista(origen, i)));
+        }
+
+        while (!pq.isEmpty()) {
+            Arista arista = pq.poll();
+            int ver1 = arista.getVer1();
+            int ver2 = arista.getVer2();
+            int pond = arista.getPonderancia();
+
+            if (! (visitado[ver1] && visitado[ver2])) {
+                int nuevoVer = visitado[ver1] ? ver2 : ver1; // Sin visitar
+                visitado[nuevoVer] = true;
+
+                arm.setLongitud(arm.getLongitud() + pond);
+                arm.getArbol().add(arista);
+
+                for (Integer i : obtenerAdyacentes(nuevoVer)) {
+                    pq.offer(new Arista (nuevoVer, i, obtenerPonderanciaArista(nuevoVer, i) ));
+                }
+            }
+        }
+
+        return arm;
+    }
+
+    /**
+     * Prim
+     * Para encontrar el árbol recubridor mínimo
+     * O(|A|log|V|)
+     * @return Árbol recubridor mínimo desde vértice aleatorio
+     */
+    public ArbolRecubridorMinimo prim() {
+        return prim(ThreadLocalRandom.current().nextInt(0, cardinalidad));
     }
 
 }
