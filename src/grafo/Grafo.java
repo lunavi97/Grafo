@@ -524,10 +524,32 @@ public class Grafo {
             vertices.add(i);
         }
 
-        vertices.sort((x, y) -> grado(x).compareTo(grado(y))); // De menor a mayor grado
+        Collections.sort(vertices); // Mezclar vértices
+        // Ordenar de menor a mayor grado
+        vertices.sort((x, y) -> grado(x).compareTo(grado(y)));
 
         Coloreo coloreo = colorear(vertices);
         return coloreo;
+    }
+
+    /**
+     * Hacer coloreo Matula
+     * @param corridas - Cantidad de ejecuciones solicitadas
+     * @return Coloreo
+     */
+    public Coloreo matula(int corridas) {
+        Coloreo mejorColoreo = matula();
+        Integer minNumeroCromatico = mejorColoreo.numeroCromatico();
+        for (int i = 1; i < corridas; i++) {
+            Coloreo coloreo = matula();
+
+            if (coloreo.numeroCromatico() < minNumeroCromatico) {
+                mejorColoreo = new Coloreo(coloreo);
+                minNumeroCromatico = mejorColoreo.numeroCromatico();
+            }
+        }
+
+        return mejorColoreo;
     }
 
     /**
@@ -540,11 +562,32 @@ public class Grafo {
         for (int i = 0; i < cardinalidad; i++) {
             vertices.add(i);
         }
-
-        vertices.sort((x, y) -> grado(y).compareTo(grado(x))); // De mayor a menor grado
+        Collections.shuffle(vertices); // Mezclar vértices
+        // Ordenar de mayor a menor grado
+        vertices.sort((x, y) -> grado(y).compareTo(grado(x)));
 
         Coloreo coloreo = colorear(vertices);
         return coloreo;
+    }
+
+    /**
+     * Hacer coloreo Welsh Powell
+     * @param corridas - Cantidad de ejecuciones solicitadas
+     * @return Coloreo
+     */
+    public Coloreo welshPowell(int corridas) {
+        Coloreo mejorColoreo = welshPowell();
+        Integer minNumeroCromatico = mejorColoreo.numeroCromatico();
+        for (int i = 1; i < corridas; i++) {
+            Coloreo coloreo = welshPowell();
+
+            if (coloreo.numeroCromatico() < minNumeroCromatico) {
+                mejorColoreo = new Coloreo(coloreo);
+                minNumeroCromatico = mejorColoreo.numeroCromatico();
+            }
+        }
+
+        return mejorColoreo;
     }
 
     /**
